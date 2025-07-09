@@ -8,11 +8,12 @@ export const revalidate = 0;
 
 export async function GET(
   _req: Request,
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
-  const { slug } = params;
-
+  const { slug } = await params;
+  console.log(`Received request to redirect for slug: ${slug}`);
   if (!slug) {
+    console.error("No slug provided in request parameters.");
     return NextResponse.redirect(new URL("/", _req.url));
   }
 
@@ -22,14 +23,16 @@ export async function GET(
     });
 
     if (link) {
+      console.log(`Redirecting to: ${link.url}`);
       return NextResponse.redirect(new URL(link.url));
     }
+
+    // If no link found, redirect to the not-found page
+    console.warn(`No link found for slug: ${slug}`);
+    return NextResponse.redirect(new URL("/not-found", _req.url));
   } catch (error) {
     console.error("Database query failed:", error);
     // Redirect to home on error
     return NextResponse.redirect(new URL("/", _req.url));
   }
-
-  // If slug is not found, redirect to the homepage.
-  return NextResponse.redirect(new URL("/", _req.url));
 }

@@ -36,7 +36,10 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
-, "src/server/db/schema.ts.old", "src/app/page.tsx.old.tsx"  ],
+    ".next/types/**/*.ts",
+    "src/server/db/schema.ts.old",
+    "src/app/page.tsx.old.tsx",
+    "src/middlewarea.tssdf"
+  ],
   "exclude": ["node_modules"]
 }
